@@ -1,78 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { createStore } from 'redux';
+// import watermark from 'watermark-dom';
+// import watermark from 'water-mark-oc'
+import watermark from 'watermarkjs';
 
-const reducer = (initState = 0, action) => {
-  switch(action.type) {
-    case 'LIKE':
-      return initState + 1;
-    case 'DISLIKE':
-      return initState - 1;
-    default:
-      return initState;
-  }
-}
-
-const store = createStore(reducer);
-
-const Demo1 = props => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    store.subscribe(() => {
-      let newState = store.getState();
-      setCount(newState);   
-    });
-  }, [])
-
-  const handleLike = () => {
-    store.dispatch({type: 'LIKE'});
-  }
-
-  return(
-    <div>
-      <button onClick={handleLike}>like</button>
-      <div>
-        {store.getState()}
-      </div>
-    </div>
-  )
-}
-
-
-class ClassDemo1 extends React.Component{
+class Demo2 extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {
-      count: 0
-    }
+    console.log(props);
   }
 
   componentDidMount() {
-    store.subscribe(() => {
-      let newState = store.getState();
-      this.setState({count: newState});   
-    });
-  }
-
-  handleLike = () => {
-    store.dispatch({type: 'LIKE'});
+    console.log(watermark)
+    // watermark.init({ watermark_txt: "测试水印，1021002301，测试水印，100101010111101" , watermark_width: 200});
+    // /*添加水印*/
+    // watermark.load({ watermark_parent_node: "watermark-parent", watermark_txt: "saucxs，1021002301，测试水印，100101010111101" });
+    // watermark.init({ watermark_txt: 'qinglinn' })//用来初始化水印
+    // watermark.load({ watermark_txt: 'qinglinn' })//用来加载水印
+    // console.log(watermark);
+    // watermark({
+    //   content: 'user',
+    // });
+    watermark(['../../public/favicon.ico', '../../public/logo192.png'])
+      .image(watermark.image.lowerRight(0.5))
+      .then(img => {
+        debugger
+        document.getElementById('add-watermark').appendChild(img)
+      });
   }
 
   render() {
     return(
-      <div>
-      <button onClick={this.handleLike}>like</button>
-      <div>
-        {this.state.count}
-      </div>
+      <div id='add-watermark'>
+        <button onClick={this.props.onIncrement}>like</button>
+        {/* <div>
+          {this.props.count}
+        </div> */}
     </div>
     )
   }
 }
 
-// store.subscribe(() => {
-//   console.log(store.getState())
-//   Demo1()
-// });
-export default Demo1;
+export default Demo2;
 
