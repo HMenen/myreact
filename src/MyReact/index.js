@@ -1,6 +1,6 @@
 import { ELEMENT_TEXT } from "./constants";
 import { UpdateQueue, Update } from './UpdateQueue';
-import { scheduleRoot } from './scheduler';
+import { scheduleRoot, useReducer, useState } from './scheduler';
 
 function createElement (type, config, ...children) {
   return {
@@ -34,9 +34,12 @@ class Component {
 
 Component.prototype.isReactomponent = {} //类组件
 
+
 export default {
   createElement,
-  Component
+  Component,
+  useReducer,
+  useState
 }
 
 

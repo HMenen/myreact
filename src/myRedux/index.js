@@ -39,6 +39,10 @@ const compose = (...funcs) => {
   return funcs.reduce((a, b) => (...args) => a(b(...args)));
 }
 
+// function aaa (...args) {
+//   return a(b())
+// }
+
 export const applyMiddleware = ( ...middlewares) => (createStore) => {
   return (reducer, preloadedState) => {
     const store = createStore(reducer, preloadedState);
@@ -54,6 +58,8 @@ export const applyMiddleware = ( ...middlewares) => (createStore) => {
     } 
   }
 }
+
+// a((function(){}))(1)
 
 
 
@@ -91,6 +97,19 @@ export default createStore;
 //   console.log('plugin1-end');
 // }
 
+
+// function next(action) {
+//   console.log('plugin1-start');
+//   dispatch(action);
+//   console.log('plugin1-end');
+// }
+
+// function a(next) {
+//   console.log('plugin2-start');
+//   next(action);
+//   console.log('plugin2-end');
+// }
+
 // const plugin1 = plugin1Middle({
 //   getState: () => {},
 //   dispath: () => {}
@@ -115,3 +134,18 @@ export default createStore;
 // });
 
 // dispatch = compose([plugin1, plugin2])(store.dispatch)
+
+
+function createThunkMiddleware(extraArgument) {
+  return ({ dispatch, getState }) => (next) => (action) => {
+    if (typeof action === 'function') {
+      return action(dispatch, getState, extraArgument);
+    }
+
+    return next(action);
+  };
+}
+
+
+export const thunk = createThunkMiddleware();
+thunk.withExtraArgument = createThunkMiddleware;

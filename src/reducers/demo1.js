@@ -1,3 +1,10 @@
+import {
+  SELECT_SUBREDDIT,
+  INVALIDATE_SUBREDDIT,
+  REQUEST_POSTS,
+  RECEIVE_POSTS
+} from '../acions/async';
+
 export default (state = 0, action) => {
   switch (action.type) {
     case 'INCREMENT':
@@ -8,3 +15,4 @@ export default (state = 0, action) => {
       return state;
   }
 }
+
